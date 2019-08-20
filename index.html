@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>web storage</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
+    </script>
+</head>
+
+<body>
+    <div class="form">
+        <div class="intro">
+            <h1>Web storage practice project</h1>
+        </div>
+        <form id="form">
+
+
+            <fieldset class="fieldset">
+
+
+                <legend class="fieldset-child"><span>1</span> Personal Information</legend>
+
+                <label for="name">Name:</label>
+
+                <input class="fieldset-child" type="text" placeholder="Enter your name" id="name" name="name">
+
+                <label class="fieldset-child" for="Email">Email</label>
+
+                <input class="fieldset-child" type="email" placeholder="Enter email" id="email" name="email">
+
+                <label class="fieldset-child" for="password">Password</label>
+
+                <input class="fieldset-child" type="password" id="password" placeholder="Enter password" name="password"><br>
+
+
+
+                <legend class="fieldset-child"><span>2</span> Education</legend>
+                <select name="university" id="university">
+                    <option value="Chuka University">Chuka University</option>
+                    <option value="Maseno University">Maseno University</option>
+                    <option value="University of Nairobi">University of Nairobi</option>
+                    <option value="Kenyatta University">Kenyatta University</option>
+                    <option value="Egerton University">Egerton University</option>
+                </select>
+
+                <br>
+                <button type="submit" id="submit-button">Submit</button>
+
+
+            </fieldset>
+
+        </form>
+    </div>
+    <div class="intro">
+            <p>This form takes user details as soon as they are entered into form fields and stores them in the local storage, so that the user won't lose them if he or she accidentally closes the form. On submission however, the details are cleared from the local storage.</p>
+            <h2>Done with vanilla JavaScript, HTML, CSS</h2>
+        </div>
+    <script>
+        (numberOfViews = () => {
+            if (window.localStorage) {
+                if (localStorage.getItem("formDetails")) {
+                    let formDetails = JSON.parse(localStorage.getItem("formDetails"));
+                    document.querySelector('#name').value = formDetails.name;
+                    document.querySelector('#email').value = formDetails.email;
+                    document.querySelector('#password').value = formDetails.password;
+                    document.querySelector('#university').value = formDetails.university;
+
+
+                } else {
+                    allInputs = document.getElementsByTagName('input');
+                    for (input of allInputs) {
+                        input.addEventListener('blur', () => {
+                            let name = document.querySelector('#name').value;
+                            let email = document.querySelector('#email').value;
+                            let password = document.querySelector('#password').value;
+                            let selectField = document.querySelector('#university');
+                            let university = selectField.options[selectField.selectedIndex].value;
+                            console.log(name);
+                            console.log(email);
+                            console.log(password);
+                            console.log(university);
+                            formDetail = {
+                                "name": name,
+                                "email": email,
+                                "password": password,
+                                "university": university
+                            };
+                            console.log(formDetail);
+                            localStorage.setItem("formDetails", JSON.stringify(formDetail));
+                            console.log(localStorage.getItem("formDetails"));
+                        });
+
+
+                    }
+
+                    console.log(typeof allInputs);
+                    form = document.querySelector('#form');
+                    form.addEventListener('submit', (event) =>{
+                        event.preventDefault();
+                        localStorage.removeItem("formDetails");
+                        return true;
+                    });
+
+                }
+
+
+            }
+        })();
+
+    </script>
+</body>
+
+</html>
